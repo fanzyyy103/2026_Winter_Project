@@ -2,13 +2,13 @@ import os
 import google.generativeai as genai
 from typing import List
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+genai.configure(api_key=os.getenv("AIzaSyA4R423SEz9XZ7OoP0DGgKve_bAxEAN1EM"))
 
 MODEL = genai.GenerativeModel("gemini-2.5-flash")
 
 
 def batch_prompts(prompts: List[str], batch_size: int = 5) -> List[str]:
-    """Batch Gemini calls to reduce token usage."""
+    
     results = []
 
     for i in range(0, len(prompts), batch_size):
