@@ -2,7 +2,7 @@ import pandas as pd
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment
 
-
+# different target varibles
 CONDITIONS = [
     "perihilar_infiltrate",
     "pneumonia",
@@ -26,11 +26,11 @@ CONDITIONS = [
     "esophagitis",
 ]
 
-
+# function to convert 1 to abnormal and 0 to normal
 def to_binary(x):
     return 1 if str(x).strip().lower() == "abnormal" else 0
 
-
+# output the confusion matrix
 def write_confusion_matrix(df: pd.DataFrame, output_path: str):
     wb = Workbook()
     ws = wb.active
@@ -55,7 +55,7 @@ def write_confusion_matrix(df: pd.DataFrame, output_path: str):
         c.alignment = Alignment(horizontal="center")
 
     row = 2
-
+    # create the labling by manual and AI
     for cond in CONDITIONS:
         gt_col = f"{cond}_gt"
         llm_col = f"{cond}_llm"
@@ -66,17 +66,19 @@ def write_confusion_matrix(df: pd.DataFrame, output_path: str):
         y_true = df[gt_col].apply(to_binary)
         y_pred = df[llm_col].apply(to_binary)
 
+        # calculate the TP,FN,TN,FP
         tp = ((y_true == 1) & (y_pred == 1)).sum()
         fn = ((y_true == 1) & (y_pred == 0)).sum()
         tn = ((y_true == 0) & (y_pred == 0)).sum()
         fp = ((y_true == 0) & (y_pred == 1)).sum()
 
+        # write into confusion matrix and process excel calculation
         ws.cell(row=row, column=1, value=cond)
         ws.cell(row=row, column=2, value=tp)
         ws.cell(row=row, column=3, value=fn)
         ws.cell(row=row, column=4, value=tn)
         ws.cell(row=row, column=5, value=fp)
-
+        
         ws.cell(row=row, column=6, value=f"=IFERROR(B{row}/(B{row}+C{row}),0)")
         ws.cell(row=row, column=7, value=f"=IFERROR(D{row}/(D{row}+E{row}),0)")
         ws.cell(row=row, column=8, value=f"=SUM(B{row}:E{row})")
