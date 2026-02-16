@@ -10,7 +10,7 @@ def main():
 
     df = pd.read_excel(args.file)
 
-    write_confusion_matrix(df, "output/confusion_output.xlsx")
+    write_confusion_matrix(df, "confusion_output.xlsx")
     print(" Evaluation complete")
 
 
