@@ -9,10 +9,12 @@ def build_parser() -> argparse.ArgumentParser:
     run = sub.add_parser("run", help="Run LLM labeling + confusion matrix")
     run.add_argument("--input", required=True, help="Input Excel path")
     run.add_argument("--output", required=True, help="Output Excel path")
-    run.add_argument("--model", default="gemini-1.5-flash")
+    run.add_argument("--model", default="gpt-5-nano-2025-08-07")
     run.add_argument("--batch-size", type=int, default=6)
     run.add_argument("--max-rows", type=int, default=None)
     run.add_argument("--dry-run", action="store_true", help="Skip LLM calls (debug pipeline)")
+    run.add_argument("--provider", choices=["openai", "gemini", "mock"], default="openai")
+
 
     return p
 

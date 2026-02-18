@@ -1,7 +1,7 @@
 from vet_llm_eval.io_excel import ID_COL, TEXT_COLS
 
 def build_prompt(row: dict, diseases: list[str]) -> str:
-    report_id = str(row.get(ID_COL, "")).strip()
+    case_id = str(row.get(ID_COL, "")).strip()
     findings = str(row.get(TEXT_COLS[0], "")).strip()
     conclusions = str(row.get(TEXT_COLS[1], "")).strip()
     recommendations = str(row.get(TEXT_COLS[2], "")).strip()
@@ -21,7 +21,7 @@ Output rules:
 - Values MUST be exactly "Normal" or "Abnormal".
 - If uncertain, choose "Normal".
 
-Report ID: {report_id}
+CaseID: {case_id}
 Findings: {findings}
 Conclusions: {conclusions}
 Recommendations: {recommendations}

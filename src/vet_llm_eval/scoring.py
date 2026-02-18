@@ -1,6 +1,5 @@
+from __future__ import annotations
 import pandas as pd
-from typing import Dict, List, Tuple
-from vet_llm_eval.io_excel import ID_COL
 
 def normalize_gold(x) -> str:
     if pd.isna(x):
@@ -11,28 +10,21 @@ def normalize_gold(x) -> str:
     return "Normal"
 
 def outcome(gold: str, pred: str) -> str:
-    if gold == "Abnormal" and pred == "Abnormal":
-        return "TP"
-    if gold == "Normal" and pred == "Abnormal":
-        return "FP"
-    if gold == "Normal" and pred == "Normal":
-        return "TN"
+    if gold == "Abnormal" and pred == "Abnormal": return "TP"
+    if gold == "Normal" and pred == "Abnormal": return "FP"
+    if gold == "Normal" and pred == "Normal": return "TN"
     return "FN"
 
-def compute_confusion(
-    df: pd.DataFrame,
-    preds: List[Dict[str, str]],
-    diseases: List[str],
-) -> Tuple[pd.DataFrame, pd.DataFrame]:
+def compute_confusion(df: pd.DataFrame, preds: list[dict], diseases: list[str], id_col: str):
     rows = []
-    for idx, pred_map in enumerate(preds):
-        rid = df.loc[idx, ID_COL]
+    for i, pred_map in enumerate(preds):
+        cid = df.loc[i, id_col]
         for d in diseases:
-            g = normalize_gold(df.loc[idx, d])
+            g = normalize_gold(df.loc[i, d])
             p = pred_map.get(d, "Normal")
             rows.append({
-                "report_id": rid,
-                "row_index": idx,
+                "CaseID": cid,
+                "row_index": i,
                 "disease": d,
                 "gold": g,
                 "pred": p,
@@ -40,11 +32,11 @@ def compute_confusion(
             })
 
     per_report_df = pd.DataFrame(rows)
+
     per_disease_df = (
         per_report_df.pivot_table(index="disease", columns="outcome", aggfunc="size", fill_value=0)
         .reset_index()
     )
-
     for col in ["TP", "FP", "TN", "FN"]:
         if col not in per_disease_df.columns:
             per_disease_df[col] = 0

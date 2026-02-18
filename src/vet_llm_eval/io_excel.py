@@ -1,6 +1,7 @@
+from __future__ import annotations
 import pandas as pd
 
-ID_COL = "report_id"
+ID_COL = "CaseID"
 
 TEXT_COLS = [
     "Findings (original radiologist report)",
@@ -27,3 +28,4 @@ def get_disease_columns(df: pd.DataFrame) -> list[str]:
     if not diseases:
         raise ValueError("No disease columns found.")
     return diseases
+
