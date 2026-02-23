@@ -28,4 +28,5 @@ def main():
             batch_size=args.batch_size,
             max_rows=args.max_rows,
             dry_run=args.dry_run,
+            provider=args.provider,
         )
