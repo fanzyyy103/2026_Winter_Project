@@ -1,6 +1,7 @@
 from __future__ import annotations
 import os
 from typing import List
+import time
 from dotenv import load_dotenv
 
 from google import genai
@@ -23,11 +24,15 @@ class GeminiClient:
         )
         
         return getattr(resp, "text", "") or ""
-
     def generate_batch(self, prompts: List[str], batch_size: int) -> List[str]:
         outputs: List[str] = []
+        INTER_CALL_DELAY = 2
+
         for i in range(0, len(prompts), batch_size):
             chunk = prompts[i : i + batch_size]
+
             for p in chunk:
                 outputs.append(self.generate_one(p))
+                time.sleep(INTER_CALL_DELAY)
+
         return outputs
