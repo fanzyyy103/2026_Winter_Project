@@ -8,17 +8,26 @@ python -m vet_llm_eval run --help
 
 python -m vet_llm_eval run \
   --provider openai \
-  --input "/Users/zhongyangfan/Desktop/1.xlsx" \
+  --input "/Users/zhongyangfan/Desktop/input1.xlsx" \
   --output "outputs/out_dry.xlsx" \
   --max-rows 1 \
   --dry-run
 
-### using openai
+### using openai TEST
  python -m vet_llm_eval run \
   --provider openai \
   --model "gpt-4.1-mini" \
   --input "/Users/zhongyangfan/Desktop/input1.xlsx" \
-  --output "outputs/out_input1_GPT.xlsx" \
+  --output "outputs/out_input1_GPT(2).xlsx" \
+  --max-rows 1 \
+  --batch-size 1
+
+### RUN openai ALL
+ python -m vet_llm_eval run \
+  --provider openai \
+  --model "gpt-4.1-mini" \
+  --input "/Users/zhongyangfan/Desktop/input1.xlsx" \
+  --output "outputs/out_input1_GPT100.xlsx" \
   --batch-size 1
 
 ### using gemini
