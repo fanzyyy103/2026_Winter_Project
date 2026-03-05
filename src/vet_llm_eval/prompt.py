@@ -35,6 +35,10 @@ Conclusions: {conclusions}
 
 Recommendations: {recommendations}
 
+ATTENTION:
+* ONLY label "Abnormal" when the report clearly supports the disease.
+* Do not infer diseases without evidence.
+
 Diseases and Definitions:
 
 bronchiectasis — permanent dilation and thickening of the bronchi caused by chronic inflammation or infection.
