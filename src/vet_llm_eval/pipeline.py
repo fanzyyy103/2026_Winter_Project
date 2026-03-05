@@ -37,9 +37,8 @@ def run_pipeline(
     6) Write Excel output
     """
 
-    # -------------------------
-    # 1) Load Excel
-    # -------------------------
+    # 1.Load Excel
+
     df = read_input_excel(str(input_path))
 
     if max_rows is not None:
@@ -54,9 +53,8 @@ def run_pipeline(
     print(f"[INFO] DryRun: {dry_run}")
     print(f"[INFO] Batch size: {batch_size}")
 
-    # -------------------------
-    # 2) Generate predictions
-    # -------------------------
+    # 2.Generate predictions
+
     preds: list[dict[str, str]] = []
 
     if dry_run:
@@ -84,9 +82,7 @@ def run_pipeline(
 
         print("[INFO] LLM calls complete.")
 
-    # -------------------------
-    # 3) Compute confusion matrix
-    # -------------------------
+    # 3.Compute confusion matrix
     per_disease_df, per_report_df = compute_confusion(
         df=df,
         preds=preds,
@@ -100,9 +96,8 @@ def run_pipeline(
 
     per_report_df = per_report_df.merge(context, on=ID_COL, how="left")
 
-    # -------------------------
-    # 4) Write Excel output
-    # -------------------------
+
+    # 4.Write Excel output
     write_output_excel(output_path, per_disease_df, per_report_df)
 
     print(f"[SUCCESS] Output written to: {output_path}")
